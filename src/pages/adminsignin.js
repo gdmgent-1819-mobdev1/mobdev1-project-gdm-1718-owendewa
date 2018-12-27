@@ -46,12 +46,12 @@ export default () => {
       })
       .then(() => {
         localStorage.setItem('currentAdmin', email);
-        window.location.replace('/?#/kotenlijst');
+        window.location.replace('/#/kotenlijst');
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         alert(errorMessage + errorCode);
       });
-    });
+  });
 };

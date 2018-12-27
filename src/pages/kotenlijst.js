@@ -41,7 +41,7 @@ export default () => {
       const ref = database.ref(`Koten/${selectedKot}`);
       ref.remove();
       document.querySelector('#createdKotList').innerHTML = '';
-      window.location.replace('/?#/adminhome');
+      window.location.replace('/adminhome');
       alert(`deleted kot ${selectedKot}`);
     };
     const edit = (e) => {
@@ -148,7 +148,7 @@ export default () => {
               const editform = document.getElementById('editForm');
               editform.style.display = 'none';
               document.querySelector('#createdKotList').style.display = 'block';
-              window.location.replace('/?#/kotenlijst');
+              window.location.replace('/#/kotenlijst');
               alert('u heb uw kot aangepast');
             });
         }
@@ -191,18 +191,18 @@ export default () => {
         if (snapshot.val().adminID === true) {
           document.querySelector('#createdKotList').innerHTML = '';
           document.getElementById('menu').innerHTML = '';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/adminhome">Home</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/messages">Messages</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/create">Create</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/mapbox">Mapbox</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/adminhome">Home</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/messages">Messages</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/create">Create</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/mapbox">Mapbox</a></li>';
           document.getElementById('menu').innerHTML += '<li><a href="#" id="logout">Logout</a></li>';
         } else {
           document.querySelector('#createdKotList').innerHTML = '';
           document.getElementById('menu').innerHTML = '';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/koten">Home</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/favorite">Favorieten</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/messages">Messages</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/mapbox">Mapbox</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/koten">Home</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/favorite">Favorieten</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/messages">Messages</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/mapbox">Mapbox</a></li>';
           document.getElementById('menu').innerHTML += '<li><a href="#" id="logout">Logout</a></li>';
         }
         const logout = () => {

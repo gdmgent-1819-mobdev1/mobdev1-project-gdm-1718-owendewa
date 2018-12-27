@@ -20,9 +20,9 @@ export default () => {
       const ref = firebase.database().ref(`Users/${userid}`);
       ref.once('value', (snapshot) => {
         if (snapshot.val().adminID === true) {
-          window.location.replace('/?#/adminhome');
+          window.location.replace('/#/adminhome');
         } else {
-          window.location.replace('/?#/koten');
+          window.location.replace('/#/koten');
         }
       });
     }

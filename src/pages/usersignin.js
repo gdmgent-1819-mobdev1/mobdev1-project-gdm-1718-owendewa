@@ -60,7 +60,7 @@ export default () => {
           userID,
           adminID,
         });
-        window.location.replace('/?#/koten');
+        window.location.replace('/#/koten');
       })
       .catch((error) => {
         const errorCode = error.code;

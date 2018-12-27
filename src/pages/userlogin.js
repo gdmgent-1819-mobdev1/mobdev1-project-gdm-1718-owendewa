@@ -20,7 +20,7 @@ export default () => {
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(() => {
         alert('User is ingelogd');
-        window.location.replace('/?#/koten');
+        window.location.replace('/#/koten');
       })
       .catch((error) => {
       // Handle Errors here.

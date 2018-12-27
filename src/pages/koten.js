@@ -21,17 +21,17 @@ export default () => {
         console.log(snapshot.val());
         if (snapshot.val().adminID === true) {
           document.getElementById('menu').innerHTML = '';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/adminhome">Home</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/messages">Messages</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/create">Create</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/kotenlijst">Kotenlijst</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/adminhome">Home</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/messages">Messages</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/create">Create</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/kotenlijst">Kotenlijst</a></li>';
           document.getElementById('menu').innerHTML += '<li><a href="#" id="logout">Logout</a></li>';
         } else {
           document.getElementById('menu').innerHTML = '';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/favorite">Favorieten</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/messages">Messages</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/kotenlijst">Kotenlijst</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/mapbox">Mapbox</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/favorite">Favorieten</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/messages">Messages</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/kotenlijst">Kotenlijst</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/mapbox">Mapbox</a></li>';
           document.getElementById('menu').innerHTML += '<li><a href="#" id="logout">Logout</a></li>';
         }
         const logout = () => {

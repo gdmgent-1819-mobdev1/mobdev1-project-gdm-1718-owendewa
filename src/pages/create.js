@@ -27,17 +27,17 @@ export default () => {
         console.log(snapshot.val());
         if (snapshot.val().adminID === true) {
           document.getElementById('menu').innerHTML = '';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/adminhome">Home</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/messages">Messages</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/kotenlijst">Kotenlijst</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/mapbox">Mapbox</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/adminhome">Home</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/messages">Messages</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/kotenlijst">Kotenlijst</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/mapbox">Mapbox</a></li>';
           document.getElementById('menu').innerHTML += '<li><a href="#" id="logout">Logout</a></li>';
         } else {
           document.getElementById('menu').innerHTML = '';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/koten">Home</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/favorite">Favorieten</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/messages">Messages</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/mapbox">Mapbox</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/koten">Home</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/favorite">Favorieten</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/messages">Messages</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/mapbox">Mapbox</a></li>';
           document.getElementById('menu').innerHTML += '<li><a href="#" id="logout">Logout</a></li>';
         }
         const logout = () => {
@@ -70,7 +70,9 @@ export default () => {
     }
   });
   document.getElementById('createSubmit').addEventListener('click', () => {
+    console.log('test');
     if (firebase) {
+      console.log('test2');
       const adres = document.getElementById('adres').value;
       const URL = `https://api.mapbox.com/geocoding/v5/mapbox.places/${adres}.json?access_token=${config.mapBoxToken}&cachebuster=1545701868024&autocomplete=true&limit=1`;
       if (config.mapBoxToken) {
@@ -79,7 +81,7 @@ export default () => {
         })
           .then(response => response.json())
           .then((data) => {
-            console.log(data);
+            console.log(URL);
             const kotLat = JSON.stringify(data.features[0].center[0]);
             const kotLong = JSON.stringify(data.features[0].center[1]);
             const huurprijs = document.getElementById('huurprijs').value;
@@ -97,6 +99,7 @@ export default () => {
             const opmerking = document.getElementById('opmerking').value;
             const user = localStorage.getItem('currentAdmin');
             const adminUid = firebase.auth().currentUser.uid;
+            console.log(data);
             const kotData = {
               image: imgURL,
               huurprijs,
@@ -119,6 +122,7 @@ export default () => {
               kotLong,
             };
             kotRef.push(kotData);
+            console.log(kotData.huurprijs);
             if (localStorage.getItem('koten') !== null) {
               koten_array = JSON.parse(localStorage.getItem('koten'));
               koten_array.push(kotData);
@@ -127,7 +131,7 @@ export default () => {
               koten_array.push(kotData);
               koten_array = localStorage.setItem('koten', JSON.stringify(koten_array));
             }
-            window.location.replace('/?#/kotenlijst');
+            window.location.replace('/#/kotenlijst');
           });
       }
     }

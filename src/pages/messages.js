@@ -22,17 +22,17 @@ export default () => {
         console.log(snapshot.val());
         if (snapshot.val().adminID === true) {
           document.getElementById('menu').innerHTML = '';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/adminhome">Home</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/create">Create</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/kotenlijst">Kotenlijst</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/mapbox">Mapbox</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/adminhome">Home</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/create">Create</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/kotenlijst">Kotenlijst</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/mapbox">Mapbox</a></li>';
           document.getElementById('menu').innerHTML += '<li><a href="#" id="logout">Logout</a></li>';
         } else {
           document.getElementById('menu').innerHTML = '';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/koten">Home</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/favorite">Favorieten</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/messages">Messages</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/?#/mapbox">Mapbox</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/koten">Home</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/favorite">Favorieten</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/messages">Messages</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/mapbox">Mapbox</a></li>';
           document.getElementById('menu').innerHTML += '<li><a href="#" id="logout">Logout</a></li>';
         }
         const logout = () => {
@@ -59,15 +59,14 @@ export default () => {
         document.getElementById('messageBox').innerHTML += '<br><br>';
       }
     });
-  });
-  document.querySelector('.messageReply').addEventListener('click', (e) => {
-    e.preventDefault(); 
-    const key = e.currentTarget.id;
-    const reply = document.getElementById('reply').value;
-    const messageRef = firebase.database().ref('Messages/' + key);
-    messageRef.child('reply').set(reply);
-    document.getElementById('messageBox').innerHTML = '';
-    window.location.replace('/?#/adminhome');
-    alert('Reply gegeven');
+    document.querySelector('.messageReply').addEventListener('click', (e) => {
+      const key = e.currentTarget.id;
+      const reply = document.getElementById('reply').value;
+      const messageRef = firebase.database().ref('Messages/' + key);
+      messageRef.child('reply').set(reply);
+      document.getElementById('messageBox').innerHTML = '';
+      window.location.replace('/#/adminhome');
+      alert('Reply gegeven');
+    });
   });
 };

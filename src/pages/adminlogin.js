@@ -21,7 +21,7 @@ export default () => {
       .then(() => {
         alert('Admin is ingelogd');
         localStorage.setItem('currentAdmin', email);
-        window.location.replace('/?#/adminhome');
+        window.location.replace('/#/adminhome');
       })
       .catch((error) => {
       // Handle Errors here.
