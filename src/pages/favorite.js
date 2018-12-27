@@ -21,10 +21,26 @@ export default () => {
       ref.once('value', (snapshot) => {
         console.log(snapshot.val());
         if (snapshot.val().adminID === true) {
-          document.getElementById('adminHome').style.display = ' block';
+          document.getElementById('menu').innerHTML = '';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/adminhome">Home</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/create">Create</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/kotenlijst">Kotenlijst</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/mapbox">Mapbox</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="#" id="logout">Logout</a></li>';
         } else {
-          document.getElementById('userHome').style.display = ' block';
+          document.getElementById('menu').innerHTML = '';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/koten">Home</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/messages">Messages</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/kotenlijst">Kotenlijst</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="/#/mapbox">Mapbox</a></li>';
+          document.getElementById('menu').innerHTML += '<li><a href="#" id="logout">Logout</a></li>';
         }
+        const logout = () => {
+          firebase.auth().signOut();
+          localStorage.removeItem('currentAdmin');
+          localStorage.removeItem('currentUser');
+        };
+        document.getElementById('logout').addEventListener('click', logout);
       });
     }
   });
