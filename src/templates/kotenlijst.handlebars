@@ -1,0 +1,58 @@
+<div class="body">
+        <nav id="menu"></nav>
+        <select id="filterBox">
+        <option value="0">Kies uw zoekoptie</option>
+        <option value="1">Geen zoekfilter</option>
+        <option value="2">Prijs</option>
+        <option value="3">Oppervlakte</option>
+        <option value="4">Type</option>
+    </select>
+    <div id="createdKotList">
+
+    </div>
+    <form id="editForm">
+    <h1>Edit</h1>
+    <input id="image" type="file" value="Kies uw kot foto" accept="image/"  novalidate>
+    <label>Huurprijs</label>
+    <input id="huurprijs" placeholder="Huurprijs" type="number"  novalidate>
+    <label>Waarborg</label>
+    <input id="waarborg" type="number" placeholder="Waarborg"  novalidate>
+    <label>Type</label>
+    <select id="type" >
+        <option value="Geen type meegegeven">Kies type kot</option>
+        <option value="Kamer">Kamer</option>
+        <option value="Studio">Studio</option>
+        <option value="Appartement">Appartement</option>
+    </select>
+    <label>Oppervlakte</label>
+    <input id="oppervlakte" type="number" placeholder="Oppervlakte in m²" >
+    <label>Verdieping</label>
+    <input id="verdieping" type="number" placeholder="Verdieping" >
+    <label>Personen</label>
+    <input id="personen" type="number" placeholder="Personen" >
+    <label>Toilet</label>
+    <input id="toilet" type="text" placeholder="Toilet? Prive, Gedeeld of Niet aanwezig" >
+    <label>Douche</label>
+    <input id="douche" type="text" placeholder="Douche? Prive, Gedeeld of Niet aanwezig" >
+    <label>Keuken</label>
+    <input id="keuken" type="text" placeholder="Keuken? Prive, Gedeeld of Niet aanwezig" >
+    <label>Bemeubeld</label>
+    <select id="bemeubeld" >
+        <option value="Bemeubeld?" >Bemeubeld?</option>
+        <option value="ja">ja</option>
+        <option value="nee">nee</option>
+    </select>
+    <label>Indien bemeubeld geef een omschrijving</label> 
+    <textarea id="bemeubeldUitleg">
+
+    </textarea>
+    <label>Adres</label>
+    <input id="adres" type="text" placeholder="Geef uw adres" >
+    <label>Entiteiten</label>
+    <input id="entiteiten" type="number" placeholder="Geef het aantal entiteiten op" >
+    <label>Vrije ingave</label> 
+    <textarea id="opmerking">
+    </textarea>
+    <input id="editSubmit" type="button" value="Edit">
+</form>
+</div>

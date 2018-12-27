@@ -1,0 +1,34 @@
+<nav id="menu"></nav>
+<form id="createForm">
+    <h1>Create</h1>
+    <input id="image" type="file" value="Kies uw kot foto" accept="image/" required>
+    <input id="huurprijs" placeholder="Huurprijs" type="number" required>
+    <input id="waarborg" type="number" placeholder="Waarborg" required>
+    <select id="type" required>
+        <option value="Geen type meegegeven">Kies type kot</option>
+        <option value="Kamer">Kamer</option>
+        <option value="Studio">Studio</option>
+        <option value="Appartement">Appartement</option>
+    </select>
+    <input id="oppervlakte" type="number" placeholder="Oppervlakte in m²" required>
+    <input id="verdieping" type="number" placeholder="Verdieping" required>
+    <input id="personen" type="number" placeholder="Personen" required>
+    <input id="toilet" type="text" placeholder="Toilet? Prive, Gedeeld of Niet aanwezig" required>
+    <input id="douche" type="text" placeholder="Douche? Prive, Gedeeld of Niet aanwezig" required>
+    <input id="keuken" type="text" placeholder="Keuken? Prive, Gedeeld of Niet aanwezig" required>
+    <select id="bemeubeld" required>
+        <option value="Bemeubeld?" >Bemeubeld?</option>
+        <option value="ja">ja</option>
+        <option value="nee">nee</option>
+    </select>
+    <label>Indien bemeubeld geef een omschrijving</label> 
+    <textarea id="bemeubeldUitleg">
+
+    </textarea>
+    <input id="adres" type="text" placeholder="Geef uw adres" required>
+    <input id="entiteiten" type="number" placeholder="Geef het aantal entiteiten op" required>
+    <label>Vrije ingave</label> 
+    <textarea id="opmerking">
+    </textarea>
+    <input id="createSubmit" type="submit" value="Create">
+</form>

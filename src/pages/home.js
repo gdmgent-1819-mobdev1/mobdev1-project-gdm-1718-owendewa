@@ -4,10 +4,36 @@ import update from '../helpers/update';
 
 // Import the template to use
 const homeTemplate = require('../templates/home.handlebars');
+const { getInstance } = require('../firebase/firebase');
+
+const firebase = getInstance();
 
 export default () => {
   // Data to be passed to the template
-  const user = 'Test user';
+  const currentuser = 'Test user';
   // Return the compiled template to the router
-  update(compile(homeTemplate)({ user }));
+  update(compile(homeTemplate)({ currentuser }));
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      const userid = firebase.auth().currentUser.uid;
+      // check user type
+      const ref = firebase.database().ref(`Users/${userid}`);
+      ref.once('value', (snapshot) => {
+        if (snapshot.val().adminID === true) {
+          window.location.replace('/?#/adminhome');
+        } else {
+          window.location.replace('/?#/koten');
+        }
+      });
+    }
+  });
+  const showPosition = (position) => {
+    console.log(`Latitude: ${position.coords.latitude}Longitude: ${position.coords.longitude}`);
+  };
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    }
+  };
+  getLocation();
 };

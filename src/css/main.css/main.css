@@ -1,0 +1,197 @@
+@import "../../node_modules/mapbox-gl/dist/mapbox-gl.css";
+body {
+  font-size: 12px;
+  margin: 0 auto;
+  background: #fefefe;
+  height: 100vh;
+}
+body #app {
+  height: 100%;
+  position: relative;
+}
+body #map {
+  height: 100vh;
+}
+
+.page {
+  padding: 20px;
+  text-align: center;
+}
+
+.header {
+  text-align: center;
+  background-color: black;
+  padding: 10px;
+}
+.header h2 {
+  margin: 0;
+}
+
+.footer {
+  position: absolute;
+  text-align: center;
+  background-color: black;
+  padding: 10px;
+}
+
+@font-face {
+  font-family: "youth";
+  src: url("../font/Youther DEMO.ttf");
+}
+body {
+  font-family: "Open Sans";
+}
+
+.mainTitle {
+  font-family: youth;
+  color: #438da5;
+  font-size: 4em;
+}
+
+.mainHomeTitle {
+  font-family: youth;
+  color: #438da5;
+  font-size: 4em;
+  margin-top: 30%;
+  margin-bottom: 25%;
+}
+
+#signInForm input, #logInForm input {
+  margin-top: 10%;
+  max-width: 1000px;
+  width: 80%;
+  height: 5vh;
+  border: none;
+}
+
+#signInForm button, #logInForm button {
+  color: #fff;
+  border: none;
+  margin: 0px auto;
+  max-width: 1000px;
+  width: 80%;
+  display: block;
+  background: #436e7e;
+  padding: 5% 1% 5% 1%;
+  margin-top: 7.5%;
+}
+
+::placeholder {
+  padding-left: 5%;
+}
+
+#signInForm select {
+  margin-top: 10%;
+  margin-left: 10%;
+  max-width: 1000px;
+  width: 80%;
+  height: 5vh;
+  border: none;
+}
+
+.home {
+  background-image: url("../images/background.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.full {
+  background-image: url("../images/background.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+
+.homeButtons {
+  text-decoration: none;
+  color: #fff;
+  background-color: #436e7e;
+  padding: 5% 1% 5% 1%;
+  display: block;
+}
+
+.homeButtons + .homeButtons {
+  margin-top: 10%;
+}
+
+#createForm {
+  max-width: 1000px;
+  margin-left: 15%;
+}
+
+#createForm input, select, textarea {
+  display: block;
+}
+
+#createForm input#image {
+  border: none;
+}
+
+#createForm input, select, textarea {
+  margin-top: 5%;
+  margin-bottom: 5%;
+  max-width: 1000px;
+  width: 80%;
+  height: 5vh;
+  border: 1px solid black;
+}
+
+#createForm textarea {
+  height: 10vh;
+}
+
+#createdKotList {
+  text-align: center;
+}
+
+#kotDetail {
+  height: 100vh;
+  background-color: black;
+  opacity: 0.8;
+  display: none;
+}
+
+#kotDetail #info {
+  position: relative;
+  left: 8%;
+  top: 5%;
+  width: 300px;
+  height: 80vh;
+  background-color: #fff;
+  text-align: center;
+}
+
+#kotDetail #info form textarea {
+  position: relative;
+  margin-left: 8.5%;
+  height: 30vh;
+}
+
+#kotDetail #info form #sendMessage {
+  background: #436e7e;
+  border: none;
+  padding-top: 3%;
+  padding-bottom: 3%;
+  padding-left: 37.5%;
+  padding-right: 37.5%;
+  color: #fff;
+}
+
+#kotList {
+  position: absolute;
+  text-align: center;
+}
+
+#userHome, #adminHome {
+  display: none;
+}
+
+#map {
+  height: 100vh;
+}
+
+.about body {
+  font-size: 40px;
+}
+
+/*# sourceMappingURL=main.css.map */
