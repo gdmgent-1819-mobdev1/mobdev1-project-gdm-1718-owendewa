@@ -13,14 +13,16 @@ export default () => {
   const name = 'login test';
   // Return the compiled template to the router
   update(compile(adminloginTemplate, getInstance)({ name }));
-
-  const login = () => {
+  console.log('Log: Adminlogin');
+  const login = (e) => {
+    e.preventDefault();
     const email = document.getElementById('login_email').value;
     const password = document.getElementById('login_password').value;
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(() => {
         alert('Admin is ingelogd');
         localStorage.setItem('currentAdmin', email);
+        localStorage.setItem('type', 'Admin');
         window.location.replace('/#/adminhome');
       })
       .catch((error) => {

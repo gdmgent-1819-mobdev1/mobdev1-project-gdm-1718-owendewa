@@ -15,20 +15,26 @@ export default () => {
   const Pagename = 'Signin page';
   // Return the compiled template to the router
   update(compile(kotenLijstTemplate, getInstance)({ Pagename }));
+  console.log('Log: Kotenlijst');
+
   const filter = document.getElementById('filterBox');
   let kotRef;
+
   filter.addEventListener('change', () => {
     if (filter.value === '1') {
-      kotRef = database.ref('Koten');
+      kotRef = firebase.database().ref('Koten');
       document.querySelector('#createdKotList').innerHTML = '';
     } else if (filter.value === '2') {
-      kotRef = database.ref('Koten').orderByChild('huurprijs');
+      kotRef = firebase.database().ref('Koten').orderByChild('huurprijs');
       document.querySelector('#createdKotList').innerHTML = '';
     } else if (filter.value === '3') {
-      kotRef = database.ref('Koten').orderByChild('oppervlakte');
+      kotRef = firebase.database().ref('Koten').orderByChild('oppervlakte');
       document.querySelector('#createdKotList').innerHTML = '';
     } else if (filter.value === '4') {
-      kotRef = database.ref('Koten').orderByChild('type');
+      kotRef = firebase.database().ref('Koten').orderByChild('type');
+      document.querySelector('#createdKotList').innerHTML = '';
+    } else if (filter.value === '5') {
+      kotRef = firebase.database().ref('Koten').orderByChild('toUser');
       document.querySelector('#createdKotList').innerHTML = '';
     }
     let selectedKot;
@@ -37,16 +43,17 @@ export default () => {
     let imgURL;
     let noImgUrl;
     const remove = (e) => {
+      e.preventDefault();
       selectedKot = e.currentTarget.id;
       const ref = database.ref(`Koten/${selectedKot}`);
       ref.remove();
       document.querySelector('#createdKotList').innerHTML = '';
-      window.location.replace('/adminhome');
-      alert(`deleted kot ${selectedKot}`);
+      window.location.replace('/#/kotenlijst');
+      window.location.reload();
     };
     const edit = (e) => {
+      e.preventDefault();
       filter.style.display = 'none';
-      document.getElementById('menu').style.display = 'none';
       const picture = document.getElementById('image');
       picture.addEventListener('change', (evt) => {
         if (picture !== '') {
@@ -93,7 +100,6 @@ export default () => {
     };
     document.getElementById('editSubmit').addEventListener('click', () => {
       document.querySelector('#createdKotList').innerHTML = '';
-      document.getElementById('menu').style.display = 'block';
       filter.style.display = 'block';
       if (firebase) {
         const adres = document.getElementById('adres').value;
@@ -147,9 +153,10 @@ export default () => {
               });
               const editform = document.getElementById('editForm');
               editform.style.display = 'none';
+              document.querySelector('#createdKotList').innerHTML = '';
               document.querySelector('#createdKotList').style.display = 'block';
               window.location.replace('/#/kotenlijst');
-              alert('u heb uw kot aangepast');
+              window.location.reload();
             });
         }
       }
@@ -160,22 +167,55 @@ export default () => {
         kotRef.on('value', (snapshot) => {
           snapshot.forEach((childSnapshot) => {
             const kot = childSnapshot.val();
-            document.querySelector('#createdKotList').innerHTML += `<img class="tinderImage" src=${kot.image}><p>Adres: ${kot.adres}</p><p>Prijs: ${kot.huurprijs}</p><p>Aantal: ${kot.personen}</p><p>kotbaas: ${kot.user}</p>`;
-            document.querySelector('#createdKotList').innerHTML += '<br><div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="large" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Delen</a></div>';
-            if (userid === kot.adminUid) {
-              document.querySelector('#createdKotList').innerHTML += `<button id="${  childSnapshot.key  }" class="editKnop">Edit</button>`;
-              document.querySelector('#createdKotList').innerHTML += `<button id="${  childSnapshot.key  }" class="deleteKnop">Remove</button>`;
+            if (localStorage.getItem('type') !== 'Admin') {
+              document.querySelector('#createdKotList').innerHTML += `<div id="kotBox"><h1>${kot.type} te huur</h1><p>${kot.adres}</p><img class="displayImage" src=${kot.image}><h2>Algemene Info</h2><p id="afstand">Kot ligt op ${kot.toUser}m afstand</p><p>€${kot.huurprijs} / maand</p><p>Oppervlakte: ${kot.oppervlakte}m&sup2;</p><p>€${kot.waarborg} / waarborg</p><p>Verdieping: ${kot.verdieping}</p><h2>Sanitaire Info</h2><p>Douche ${kot.douche}</p><p>Toilet ${kot.toilet}</p><div id="kotBoxButtons" ><div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="large" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Delen</a><a id="contactKnop">Contact</a></div></div>`;
+            } else if (localStorage.getItem('type') === 'Admin' && userid === kot.adminUid) {
+              document.querySelector('#createdKotList').innerHTML += `<div id="kotBox"><h1>${kot.type} te huur</h1><p>${kot.adres}</p><img class="displayImage" src=${kot.image}><h2>Algemene Info</h2><p>€${kot.huurprijs} / maand</p><p>Oppervlakte: ${kot.oppervlakte}m&sup2;</p><p>€${kot.waarborg} / waarborg</p><p>Verdieping: ${kot.verdieping}</p><h2>Sanitaire Info</h2><p>Douche ${kot.douche}</p><p>Toilet ${kot.toilet}</p><div id="kotBoxButtons" ><div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="large" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Delen</a><a id="contactKnop">Contact</a></div></div>`;
+              document.querySelector('#createdKotList').innerHTML += `<button id="${childSnapshot.key}" class="editKnop">Edit</button>`;
+              document.querySelector('#createdKotList').innerHTML += `<button id="${childSnapshot.key}" class="deleteKnop">Remove</button>`;
               const buttons = document.querySelectorAll('.deleteKnop');
-              console.log(buttons);
               for (let i = 0; i < buttons.length; i++) {
                 buttons[i].addEventListener('click', remove);
               }
               const editButtons = document.querySelectorAll('.editKnop');
-              console.log(editButtons);
               for (let i = 0; i < editButtons.length; i++) {
                 editButtons[i].addEventListener('click', edit);
               }
             }
+            document.getElementById('contactKnop').addEventListener('click', (e) => {
+              e.preventDefault();
+              document.getElementById('contactForm').style.display = 'block';
+              document.getElementById('contactForm').innerHTML = '';
+              document.getElementById('contactForm').innerHTML += '<button id="kotenlijstMessageClose">&times;</button><br>';
+              document.getElementById('contactForm').innerHTML += '<form id="kotlijstContact"><h1>Contact</h1><textarea id="message" placeholder="Geef uw boodschap hierin"></textarea><input type="submit" id="sendMessage" value="Send"></form>';
+              // POPUP CLOSE
+              document.getElementById('kotenlijstMessageClose').addEventListener('click', () => {
+                document.getElementById('contactForm').style.display = 'none';
+              });
+              document.getElementById('sendMessage').addEventListener('click', () => {
+                e.preventDefault();
+                const ref = firebase.database().ref('Messages');
+                const message = document.getElementById('message').value;
+                const adres = kot.adres;
+                const creator = kot.user;
+                const sender = firebase.auth().currentUser.email;
+                const senderId = firebase.auth().currentUser.uid;
+                const recepient = kot.adminUid;
+                const reply = '';
+                const Data = {
+                  message,
+                  adres,
+                  sender,
+                  senderId,
+                  recepient,
+                  creator,
+                  reply,
+                };
+                ref.push(Data);
+                document.getElementById('contactForm').style.display = 'none';
+                window.location.replace('/#/kotenlijst');
+              });
+            });
           });
         });
       } else {
@@ -189,28 +229,51 @@ export default () => {
       const ref = firebase.database().ref(`Users/${userid}`);
       ref.once('value', (snapshot) => {
         if (snapshot.val().adminID === true) {
-          document.querySelector('#createdKotList').innerHTML = '';
-          document.getElementById('menu').innerHTML = '';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/adminhome">Home</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/messages">Messages</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/create">Create</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/mapbox">Mapbox</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="#" id="logout">Logout</a></li>';
-        } else {
-          document.querySelector('#createdKotList').innerHTML = '';
-          document.getElementById('menu').innerHTML = '';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/koten">Home</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/favorite">Favorieten</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/messages">Messages</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/mapbox">Mapbox</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="#" id="logout">Logout</a></li>';
+          if (document.querySelector('#createdKotList' !== null)) {
+            document.querySelector('#createdKotList').innerHTML = '';
+          }
+          if (document.getElementById('overlay-content') !== null) {
+            document.getElementById('overlay-content').innerHTML = '';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/adminhome">Home</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/messages">Messages</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/create">Create</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/mapbox">Mapbox</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="#" id="logout">Logout</a>';
+          }
+        } else if (snapshot.val().userID === true) {
+          if (document.querySelector('#createdKotList' !== null)) {
+            document.querySelector('#createdKotList').innerHTML = '';
+          }
+          if (document.getElementById('overlay-content') !== null) {
+            document.getElementById('overlay-content').innerHTML = '';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/koten">Home</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/favorite">Favorieten</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/messages">Messages</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/mapbox">Mapbox</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="#" id="logout">Logout</a>';
+          }
+        }
+        if (document.getElementById('openMenu') !== null) {
+          document.getElementById('openMenu').addEventListener('click', () => {
+            document.getElementById('myNav').style.width = '50%';
+          });
+        }
+        if (document.getElementById('closeMenu') !== null) {
+          document.getElementById('closeMenu').addEventListener('click', () => {
+            document.getElementById('myNav').style.width = '0%';
+          });
         }
         const logout = () => {
           firebase.auth().signOut();
           localStorage.removeItem('currentAdmin');
           localStorage.removeItem('currentUser');
+          localStorage.removeItem('userLong');
+          localStorage.removeItem('userLat');
+          localStorage.removeItem('type');
         };
-        document.getElementById('logout').addEventListener('click', logout);
+        if (document.getElementById('logout') !== null) {
+          document.getElementById('logout').addEventListener('click', logout);
+        }
       });
     }
   });

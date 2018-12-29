@@ -18,34 +18,54 @@ export default () => {
   const Pagename = 'Create Page.';
   // Return the compiled template to the router
   update(compile(createTemplate, kotenTemplate)({ Pagename }));
+  console.log('Log: Create');
+
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       const userid = firebase.auth().currentUser.uid;
       // check user type
       const ref = firebase.database().ref(`Users/${userid}`);
       ref.once('value', (snapshot) => {
-        console.log(snapshot.val());
         if (snapshot.val().adminID === true) {
-          document.getElementById('menu').innerHTML = '';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/adminhome">Home</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/messages">Messages</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/kotenlijst">Kotenlijst</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/mapbox">Mapbox</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="#" id="logout">Logout</a></li>';
-        } else {
-          document.getElementById('menu').innerHTML = '';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/koten">Home</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/favorite">Favorieten</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/messages">Messages</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/mapbox">Mapbox</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="#" id="logout">Logout</a></li>';
+          if (document.getElementById('overlay-content') !== null) {
+            document.getElementById('overlay-content').innerHTML = '';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/adminhome">Home</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/messages">Messages</a></li>';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/kotenlijst">Kotenlijst</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/mapbox">Mapbox</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="#" id="logout">Logout</a>';
+          }
+        } else if (snapshot.val().userID === true) {
+          if (document.getElementById('overlay-content') !== null) {
+            document.getElementById('overlay-content').innerHTML = '';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/koten">Home</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/favorite">Favorieten</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/messages">Messages</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/mapbox">Mapbox</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="#" id="logout">Logout</a>';
+          }
+        }
+        if (document.getElementById('openMenu') !== null) {
+          document.getElementById('openMenu').addEventListener('click', () => {
+            document.getElementById('myNav').style.width = '50%';
+          });
+        }
+        if (document.getElementById('closeMenu') !== null) {
+          document.getElementById('closeMenu').addEventListener('click', () => {
+            document.getElementById('myNav').style.width = '0%';
+          });
         }
         const logout = () => {
           firebase.auth().signOut();
           localStorage.removeItem('currentAdmin');
           localStorage.removeItem('currentUser');
+          localStorage.removeItem('userLong');
+          localStorage.removeItem('userLat');
+          localStorage.removeItem('type');
         };
-        document.getElementById('logout').addEventListener('click', logout);
+        if (document.getElementById('logout') !== null) {
+          document.getElementById('logout').addEventListener('click', logout);
+        }
       });
     }
   });
@@ -69,7 +89,8 @@ export default () => {
       });
     }
   });
-  document.getElementById('createSubmit').addEventListener('click', () => {
+  document.getElementById('createSubmit').addEventListener('click', (e) => {
+    e.preventDefault();
     console.log('test');
     if (firebase) {
       console.log('test2');
@@ -132,6 +153,7 @@ export default () => {
               koten_array = localStorage.setItem('koten', JSON.stringify(koten_array));
             }
             window.location.replace('/#/kotenlijst');
+            window.location.reload();
           });
       }
     }

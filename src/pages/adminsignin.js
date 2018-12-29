@@ -12,6 +12,8 @@ export default () => {
   const Pagename = 'Signin page';
   // Return the compiled template to the router
   update(compile(adminsigninTemplate, getInstance)({ Pagename }));
+  console.log('Log: Adminsignin');
+
   // Admin //
   document.getElementById('adminSignupButton').addEventListener('click', (e) => {
     e.preventDefault();
@@ -46,6 +48,7 @@ export default () => {
       })
       .then(() => {
         localStorage.setItem('currentAdmin', email);
+        localStorage.setItem('type', 'Admin');
         window.location.replace('/#/kotenlijst');
       })
       .catch((error) => {

@@ -13,6 +13,8 @@ export default () => {
   const name = 'Test inc.';
   // Return the compiled template to the router
   update(compile(messagesTemplate)({ name }));
+  console.log('Log: Messages');
+
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       const userid = firebase.auth().currentUser.uid;
@@ -21,52 +23,77 @@ export default () => {
       ref.once('value', (snapshot) => {
         console.log(snapshot.val());
         if (snapshot.val().adminID === true) {
-          document.getElementById('menu').innerHTML = '';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/adminhome">Home</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/create">Create</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/kotenlijst">Kotenlijst</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/mapbox">Mapbox</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="#" id="logout">Logout</a></li>';
-        } else {
-          document.getElementById('menu').innerHTML = '';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/koten">Home</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/favorite">Favorieten</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/messages">Messages</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="/#/mapbox">Mapbox</a></li>';
-          document.getElementById('menu').innerHTML += '<li><a href="#" id="logout">Logout</a></li>';
+          if (document.getElementById('overlay-content') !== null) {
+            document.getElementById('overlay-content').innerHTML = '';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/adminhome">Home</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/create">Create</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/kotenlijst">Kotenlijst</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/mapbox">Mapbox</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="#" id="logout">Logout</a>';
+          }
+        } else if (snapshot.val().userID === true) {
+          if (document.getElementById('overlay-content') !== null) {
+            document.getElementById('overlay-content').innerHTML = '';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/koten">Home</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/favorite">Favorieten</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/kotenlijst">Kotenlijst</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="/#/mapbox">Mapbox</a>';
+            document.getElementById('overlay-content').innerHTML += '<a href="#" id="logout">Logout</a>';
+          }
+        }
+        if (document.getElementById('openMenu') !== null) {
+          document.getElementById('openMenu').addEventListener('click', () => {
+            document.getElementById('myNav').style.width = '50%';
+          });
+        }
+        if (document.getElementById('closeMenu') !== null) {
+          document.getElementById('closeMenu').addEventListener('click', () => {
+            document.getElementById('myNav').style.width = '0%';
+          });
         }
         const logout = () => {
           firebase.auth().signOut();
           localStorage.removeItem('currentAdmin');
           localStorage.removeItem('currentUser');
+          localStorage.removeItem('userLong');
+          localStorage.removeItem('userLat');
+          localStorage.removeItem('type');
         };
-        document.getElementById('logout').addEventListener('click', logout);
+        if (document.getElementById('logout') !== null) {
+          document.getElementById('logout').addEventListener('click', logout);
+        }
       });
     }
   });
   const ref = firebase.database().ref('Messages');
   ref.on('value', (snapshot) => {
+    if (document.getElementById('messageBox') !== null) {
+      document.getElementById('messageBox').innerHTML = '';
+    }
     snapshot.forEach((childSnapshot) => {
       const messages = childSnapshot.val();
       if (firebase.auth().currentUser.uid === messages.senderId || firebase.auth().currentUser.uid === messages.recepient) {
-        document.getElementById('messageBox').innerHTML += 'From: ' + messages.sender + '<br>';
-        document.getElementById('messageBox').innerHTML += 'To: ' + messages.creator + '<br>';
-        document.getElementById('messageBox').innerHTML += 'From: ' + messages.message + '<br>';
-        document.getElementById('messageBox').innerHTML += 'Reply: ' + messages.reply + '<br>';
-        if (firebase.auth().currentUser.uid === messages.recepient && messages.reply === '') {
-          document.getElementById('messageBox').innerHTML += '<form><textarea id="reply" placeholder="your reply"></textarea><input type="submit" value="antwoord" id="' + childSnapshot.key+ '" class="messageReply"></form>';
+        if (document.getElementById('messageBox') !== null) {
+          document.getElementById('messageBox').innerHTML += `From: ${messages.sender}<br>`;
+          document.getElementById('messageBox').innerHTML += `To: ${messages.creator}<br>`;
+          document.getElementById('messageBox').innerHTML += `Message: ${messages.message}<br>`;
+          document.getElementById('messageBox').innerHTML += `Reply: ${messages.reply}<br>`;
+          if (firebase.auth().currentUser.uid === messages.recepient && messages.reply === '') {
+            document.getElementById('messageBox').innerHTML += `<form><textarea id="reply" placeholder="your reply"></textarea><input type="submit" value="antwoord" id="${childSnapshot.key}" class="messageReply"></form>`;
+          }
         }
-        document.getElementById('messageBox').innerHTML += '<br><br>';
       }
     });
-    document.querySelector('.messageReply').addEventListener('click', (e) => {
-      const key = e.currentTarget.id;
-      const reply = document.getElementById('reply').value;
-      const messageRef = firebase.database().ref('Messages/' + key);
-      messageRef.child('reply').set(reply);
-      document.getElementById('messageBox').innerHTML = '';
-      window.location.replace('/#/adminhome');
-      alert('Reply gegeven');
-    });
+    if (document.querySelector('.messageReply') !== null) {
+      document.querySelector('.messageReply').addEventListener('click', (e) => {
+        const key = e.currentTarget.id;
+        const reply = document.getElementById('reply').value;
+        const messageRef = firebase.database().ref(`Messages/${key}`);
+        messageRef.child('reply').set(reply);
+        document.getElementById('messageBox').innerHTML = '';
+        window.location.replace('/#/adminhome');
+        alert('Reply gegeven');
+      });
+    }
   });
 };

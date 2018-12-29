@@ -13,8 +13,10 @@ export default () => {
   const name = 'login test';
   // Return the compiled template to the router
   update(compile(userloginTemplate, getInstance)({ name }));
+  console.log('Log: userlogin');
 
-  const login = () => {
+  const login = (e) => {
+    e.preventDefault();
     const email = document.getElementById('login_email').value;
     const password = document.getElementById('login_password').value;
     firebase.auth().signInWithEmailAndPassword(email, password)

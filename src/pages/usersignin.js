@@ -12,6 +12,8 @@ export default () => {
   const Pagename = 'Signin page';
   // Return the compiled template to the router
   update(compile(usersigninTemplate, getInstance)({ Pagename }));
+  console.log('Log: usersignin');
+
   // USER //
   document.getElementById('userSignupButton').addEventListener('click', (e) => {
     e.preventDefault();
