@@ -45,8 +45,8 @@ export default () => {
             document.getElementById('overlay-content').innerHTML += '<a href="#" id="logout">Logout</a>';
           }
         }
-        if (document.getElementById('openMenu') !== null) {
-          document.getElementById('openMenu').addEventListener('click', () => {
+        if (document.getElementById('openMenuMapbox') !== null) {
+          document.getElementById('openMenuMapbox').addEventListener('click', () => {
             document.getElementById('myNav').style.width = '50%';
           });
         }

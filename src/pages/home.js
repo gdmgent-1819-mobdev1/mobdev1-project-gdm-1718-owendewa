@@ -13,7 +13,7 @@ export default () => {
   const currentuser = 'Test user';
   // Return the compiled template to the router
   update(compile(homeTemplate)({ currentuser }));
-  console.log('Log: Home')
+  console.log('Log: Home');
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       const userid = firebase.auth().currentUser.uid;

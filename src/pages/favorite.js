@@ -69,20 +69,26 @@ export default () => {
     snapshot.forEach((childSnapshot) => {
       const fav = childSnapshot.val();
       if (firebase.auth().currentUser.uid === fav.currentUser) {
-        document.getElementById('myList').innerHTML += `<img id="favoImg" src=${fav.image}></img><br>`;
-        document.getElementById('myList').innerHTML += `Adres ${fav.adres}<br>`;
-        document.getElementById('myList').innerHTML += `Type: ${fav.type}<br>`;
-        document.getElementById('myList').innerHTML += `Oppervlakte: ${fav.oppervlakte}<br>`;
-        document.getElementById('myList').innerHTML += `Huurprijs: ${fav.huurprijs}<br>`;
-        document.getElementById('myList').innerHTML += `Waarborg: ${fav.waarborg}<br>`;
-        document.getElementById('myList').innerHTML += `Verdieping: ${fav.verdieping}<br>`;
-        document.getElementById('myList').innerHTML += `Aantal personen: ${fav.personen}<br>`;
-        document.getElementById('myList').innerHTML += `Keuken: ${fav.keuken}<br>`;
-        document.getElementById('myList').innerHTML += `Douche: ${fav.douche}<br>`;
-        document.getElementById('myList').innerHTML += `Toilet: ${fav.toilet}<br>`;
-        document.getElementById('myList').innerHTML += `Bemeubeld: ${fav.bemeubeld}<br>`;
-        document.getElementById('myList').innerHTML += `Uitleg: ${fav.bemeubeldUitleg}<br>`;
-        document.getElementById('myList').innerHTML += `Kotbaas: ${fav.kotbaas}<br>`;
+        document.getElementById('myList').innerHTML += `
+        <div id="favoriteBox">
+          <h1>${fav.type}</h1>
+          <p>${fav.adres}</p>
+          <img id="favoImg" src=${fav.image}></img><br>
+          <h2>Algemene Info</h2>
+          <p>€${fav.huurprijs} / maand</p>
+          <p>${fav.oppervlakte}m&sup2;</p>
+          <p>€${fav.waarborg}/ waarborg</p>
+          <p>Verdieping: ${fav.verdieping}</p>
+          <p>Aantal personen: ${fav.personen}</p>
+          <h2>Sanitaire Info</h2>
+          <p>Keuken: ${fav.keuken}</p>
+          <p>Douche: ${fav.douche}</p>
+          <p>Toilet: ${fav.toilet}</p>
+          <h2>Extra Info</h2>
+          <p>Bemeubeld: ${fav.bemeubeld}</p>
+          <p>Uitleg: ${fav.bemeubeldUitleg}</p>
+          <p>Kotbaas: ${fav.kotbaas}</p>
+        </div>`;
       }
     });
   });

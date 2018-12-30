@@ -66,7 +66,7 @@ export default () => {
     }
   });
   const ref = firebase.database().ref('Messages');
-  ref.on('value', (snapshot) => {
+  ref.orderByChild('date').on('value', (snapshot) => {
     if (document.getElementById('messageBox') !== null) {
       document.getElementById('messageBox').innerHTML = '';
     }
@@ -74,26 +74,28 @@ export default () => {
       const messages = childSnapshot.val();
       if (firebase.auth().currentUser.uid === messages.senderId || firebase.auth().currentUser.uid === messages.recepient) {
         if (document.getElementById('messageBox') !== null) {
-          document.getElementById('messageBox').innerHTML += `From: ${messages.sender}<br>`;
-          document.getElementById('messageBox').innerHTML += `To: ${messages.creator}<br>`;
-          document.getElementById('messageBox').innerHTML += `Message: ${messages.message}<br>`;
-          document.getElementById('messageBox').innerHTML += `Reply: ${messages.reply}<br>`;
+          document.getElementById('messageBox').innerHTML += `<div id="message" ><h3>From: <span class="messageTitle" >${messages.sender}</span></h3>
+         <h3>To:  <span class="messageTitle" >${messages.creator} </span></h3>
+         <p id="messageContent">Message: ${messages.message}</p>
+         <p>Reply: ${messages.reply}</p></div>`;
           if (firebase.auth().currentUser.uid === messages.recepient && messages.reply === '') {
             document.getElementById('messageBox').innerHTML += `<form><textarea id="reply" placeholder="your reply"></textarea><input type="submit" value="antwoord" id="${childSnapshot.key}" class="messageReply"></form>`;
+            if (document.querySelector('.messageReply') !== null) {
+              document.querySelector('.messageReply').addEventListener('click', (e) => {
+                e.preventDefault();
+                const key = e.currentTarget.id;
+                const reply = document.getElementById('reply').value;
+                const messageRef = firebase.database().ref(`Messages/${key}`);
+                messageRef.child('reply').set(reply);
+                document.getElementById('messageBox').innerHTML = '';
+                window.location.replace('/#/messages');
+                window.location.reload();
+                alert('Reply gegeven');
+              });
+            }
           }
         }
       }
     });
-    if (document.querySelector('.messageReply') !== null) {
-      document.querySelector('.messageReply').addEventListener('click', (e) => {
-        const key = e.currentTarget.id;
-        const reply = document.getElementById('reply').value;
-        const messageRef = firebase.database().ref(`Messages/${key}`);
-        messageRef.child('reply').set(reply);
-        document.getElementById('messageBox').innerHTML = '';
-        window.location.replace('/#/adminhome');
-        alert('Reply gegeven');
-      });
-    }
   });
 };
