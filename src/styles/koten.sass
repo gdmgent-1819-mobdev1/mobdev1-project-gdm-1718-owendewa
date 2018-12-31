@@ -1,35 +1,41 @@
-#tinderKotBox
-    width: 100vw
-
-#kotList
-    display: block
-    max-width: 300px
-    margin: 2.5% 10vw
-    background: #fff
-    border-radius: 10px
-
-
-#kotList
-    h2
-        color: #57badb
-
-.tinderImage
-    width: 100%
-    height: 30vh
-
-.tinderDetailImage
-    width: 250px
-    height: 25vh
+//algemeene Pagina classe
 
 .tinderSpel
     height: 100vh
     overflow: hidden
     background-color: whitesmoke
 
+#tinderKotBox
+    width: 100vw
+
+// TinderSpel div
+#kotList
+    display: block
+    max-width: 300px
+    margin: 15% 10vw
+    background: #fff
+    border-radius: 10px
+    @media screen and (min-width: 500px) 
+        margin: 15% 30vw
+    @media screen and (min-width: 1250px) 
+        margin: 5% 40vw
+
+#kotList
+    h2
+        color: #57badb
+//Images
+
+.tinderImage
+    width: 100%
+    height: 30vh
+
+//Div favo en skip knop
 #tinderButtons
     margin-top: 15%
     margin-left: -5%
     padding-bottom: 15%
+
+//HARTJE
 
 #favoKnop
     background-color: red
@@ -54,23 +60,26 @@
     top: -12px
     left: 0
 
+//NextKnop ( kruisje )
 #nextKnop 
   position: absolute
   width: 32px
   height: 32px
   opacity: 0.3
+  margin-left: 25%
+  margin-top: -4%
 
 #nextKnop:hover 
   opacity: 1
 
 #nextKnop:before, #nextKnop:after 
   position: absolute
-  left: 100px
-  content: ' '
+  content: ''
   height: 33px
   width: 2px
   background-color: #333
-  top: -10px
+  top: 0px
+  left: 14px
 
 #nextKnop:before 
   transform: rotate(45deg)
@@ -78,9 +87,13 @@
 #nextKnop:after 
   transform: rotate(-45deg)
 
+// MAP
+
 #tinderMap
     height: 20vh
     top: 80vh
+
+//KNOPPEN
 
 #detailKnop
     background-color: #57badb
@@ -94,10 +107,88 @@
     color: #fff
     padding: 2.5% 15%
     margin-left: 2%
-
-#shareKnop
-    background-color: #57badb
-    border: none
-    color: #fff
-    padding: 2.5% 15%
     
+//KOTDETAIL
+
+#kotDetail
+    position: absolute
+    height: 100vh
+    max-width: 1920px
+    width: 100%
+    background-color: rgba(0,0,0,0.9)
+    opacity: 1
+    display: none
+    z-index: 10
+    margin-top: -20vh
+    #info
+        position: relative
+        left: 8%
+        top: 10%
+        width: 300px
+        height: 80vh
+        background-color: #fff
+        @media screen and (min-width: 500px) 
+            margin: 5% 15vw
+        @media screen and (min-width: 750px) 
+            margin: 0% 25vw
+        @media screen and (min-width: 1250px) 
+            margin: 0% 32.5vw
+        h1
+            color: #57badb
+            margin-left: 7.5%
+            margin-top: 10%
+        form textarea
+            position: relative
+            margin-left: 7.5%
+            height: 30vh
+            max-width: 1920px
+            width: 250px
+            resize: none
+            margin-top: 5%
+        form #sendMessage
+            background: #57badb
+            border: none
+            padding-top: 3%
+            padding-bottom: 3%
+            padding-left: 37.5%
+            padding-right: 37.5%
+            color: #fff
+            max-width: 1920px
+            width: 255px
+            margin-left: 7.5%
+            margin-top: 5%
+        button#Close
+            color: #57badb
+            border: none
+            font-size: 40px
+            float: right
+            margin-left: -5%
+            margin-top: 0%
+        button#detailClose
+            color: #57badb
+            border: none
+            font-size: 40px
+            float: right
+            margin-left: -5%
+            margin-top: 0%
+        .tinderDetailImage
+            width: 250px
+            height: 25vh
+            margin-top: 20%
+            margin-left: 7.5%
+        p
+            line-height: 0.8
+            margin-left: 7.5%
+            padding-bottom: 1%
+        .fb-share-button a#shareKnop
+            text-decoration: none
+            background-color: #57badb
+            border: none
+            color: #fff
+            padding: 2.5% 15%
+            margin-left: 5vw
+            
+#kotList
+    position: absolute
+    text-align: center
+

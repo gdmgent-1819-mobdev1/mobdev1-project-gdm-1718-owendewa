@@ -7,7 +7,7 @@
 #message
     max-width: 1200px
     width: 90%
-    margin: 5% auto
+    margin: 0% auto
     box-sizing: border-box
     padding: 2.5%
     -webkit-box-shadow: 0px 0px 20px -5px rgba(87,186,219,0.75)
@@ -15,6 +15,16 @@
     box-shadow: 0px 0px 20px -5px rgba(87,186,219,0.75)
     border-radius: 15px
     background: #fff
+    @media screen and (min-width: 500px) 
+        width: 65%
+    @media screen and (min-width: 850px) 
+        width: 50%
+    @media screen and (min-width: 1250px) 
+        width: 40%
+        margin-left: 30vw
+
+#message
+    margin-top: 4%
 
 #message
     h3
@@ -35,6 +45,20 @@
     width: 90%
     margin-left: 5%
     height: 10vh
+    margin-top: 5%
+    resize: none
+    @media screen and (min-width: 500px) 
+        margin-top: 2%
+        width: 65%
+        margin-left: 17.5vw
+    @media screen and (min-width: 850px) 
+        margin-top: 2%
+        width: 50%
+        margin-left: 25vw
+    @media screen and (min-width: 1250px)
+        margin-top: 2% 
+        width: 40%
+        margin-left: 30vw
 
 .messageReply
     color: #fff
@@ -46,3 +70,11 @@
     background: #57badb  
     padding: 5% 1% 5% 1%
     margin-top: 1%
+    @media screen and (min-width: 500px) 
+        width: 65%
+    @media screen and (min-width: 850px) 
+        width: 50%
+    @media screen and (min-width: 1250px) 
+        width: 40%
+        margin-left: 30vw
+        padding: 2.5% 1% 2.5% 1%

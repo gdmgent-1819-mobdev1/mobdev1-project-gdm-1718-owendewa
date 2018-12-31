@@ -4,7 +4,12 @@
     font-size: 4em
     margin-top: 30%
     margin-bottom: 25%
-
+    @media screen and (min-width: 600px) 
+        margin-top: 15%
+        margin-bottom: 15%
+    @media screen and (min-width: 1250px) 
+        margin-top: 2%
+        margin-bottom: 5%
 .home
     background-image: url('../images/background.jpeg')
     background-repeat: no-repeat
@@ -22,7 +27,22 @@
     background-color: #436e7e
     padding: 5% 1% 5% 1%
     display: block
+    @media screen and (min-width: 600px) 
+        max-width: 600px
+        margin-left: 10vw
+    @media screen and (min-width: 900px) 
+        max-width: 450px
+        margin-left: 23.5vw
+        padding: 2.5% 1% 2.5% 1%
+    @media screen and (min-width: 1250px) 
+        max-width: 450px
+        margin-left: 30vw
+    @media screen and (min-width: 1500px) 
+        max-width: 450px
+        margin-left: 32.5vw
 
 .homeButtons + .homeButtons
         margin-top: 10%
+        @media screen and (min-width: 1250px) 
+            margin-top: 5%
 

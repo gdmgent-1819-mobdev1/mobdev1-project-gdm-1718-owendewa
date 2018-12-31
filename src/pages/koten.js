@@ -106,25 +106,27 @@ export default () => {
 
   // DETAIL POP UP
   document.getElementById('detailKnop').addEventListener('click', () => {
+    document.getElementById('tinderKotBox').style.display = 'none';
     document.getElementById('openMenu').style.display = 'none';
     document.getElementById('kotDetail').style.display = 'block';
     document.getElementById('kotList').style.display = 'none';
     document.getElementById('info').innerHTML = '';
-    document.getElementById('info').innerHTML += '<button id="detailClose">close</button><br>';
-    document.getElementById('info').innerHTML += `<img class="tinderDetailImage" src="${koten[0].image}"><br>`;
-    document.getElementById('info').innerHTML += `Adres: ${koten[0].adres}<br>`;
-    document.getElementById('info').innerHTML += `Huurprijs: ${koten[0].huurprijs} / maand<br>`;
-    document.getElementById('info').innerHTML += `Oppervlakte: ${koten[0].oppervlakte}m&sup2;<br>`;
-    document.getElementById('info').innerHTML += `Personen: ${koten[0].personen}<br>`;
-    document.getElementById('info').innerHTML += `Type: ${koten[0].type}<br>`;
-    document.getElementById('info').innerHTML += `Keuken: ${koten[0].keuken}<br>`;
-    document.getElementById('info').innerHTML += `Douche: ${koten[0].douche}<br>`;
-    document.getElementById('info').innerHTML += `Bemeubeld: ${koten[0].bemeubeld}<br>`;
-    document.getElementById('info').innerHTML += `BemeubeldUitleg: ${koten[0].bemeubeldUitleg}<br>`;
-    document.getElementById('info').innerHTML += `Kotbaas: ${koten[0].user}<br><br><br>`;
-    document.getElementById('info').innerHTML += '<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="large" data-mobile-iframe="true"><a id="shareKnop" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Delen</a></div>';
+    document.getElementById('info').innerHTML += '<button id="detailClose">&times;</button>';
+    document.getElementById('info').innerHTML += `<img class="tinderDetailImage" src="${koten[0].image}">`;
+    document.getElementById('info').innerHTML += `<p>Adres: ${koten[0].adres}</p>`;
+    document.getElementById('info').innerHTML += `<p>Huurprijs: ${koten[0].huurprijs} / maand</p>`;
+    document.getElementById('info').innerHTML += `<p>Oppervlakte: ${koten[0].oppervlakte}m&sup2;</p>`;
+    document.getElementById('info').innerHTML += `<p>Personen: ${koten[0].personen}</p>`;
+    document.getElementById('info').innerHTML += `<p>Type: ${koten[0].type}</p>`;
+    document.getElementById('info').innerHTML += `<p>Keuken: ${koten[0].keuken}</p>`;
+    document.getElementById('info').innerHTML += `<p>Douche: ${koten[0].douche}</p>`;
+    document.getElementById('info').innerHTML += `<p>Bemeubeld: ${koten[0].bemeubeld}</p>`;
+    document.getElementById('info').innerHTML += `<p>BemeubeldUitleg: ${koten[0].bemeubeldUitleg}</p>`;
+    document.getElementById('info').innerHTML += `<p>Kotbaas: ${koten[0].user}</p>`;
+    document.getElementById('info').innerHTML += '<br><div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="large" data-mobile-iframe="true"><a id="shareKnop" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Delen</a></div>';
     // POPUP CLOSE
     document.getElementById('detailClose').addEventListener('click', () => {
+      document.getElementById('tinderKotBox').style.display = 'block';
       document.getElementById('kotDetail').style.display = 'none';
       document.getElementById('kotList').style.display = 'block';
       document.getElementById('openMenu').style.display = 'block';
@@ -135,7 +137,7 @@ export default () => {
     document.getElementById('kotList').style.display = 'none';
     document.getElementById('info').innerHTML = '';
     document.getElementById('info').innerHTML += '<button id="Close">&times;</button><br>';
-    document.getElementById('info').innerHTML += '<form><h1>Contact</h1><textarea id="message" placeholder="Geef uw boodschap hierin"></textarea><input type="submit" id="sendMessage" value="Send"></form>';
+    document.getElementById('info').innerHTML += '<form><h1>Contact</h1><textarea id="contactMessage" placeholder="Geef uw boodschap hierin"></textarea><input type="submit" id="sendMessage" value="Send"></form>';
     // POPUP CLOSE
     document.getElementById('Close').addEventListener('click', () => {
       document.getElementById('kotDetail').style.display = 'none';
@@ -144,7 +146,7 @@ export default () => {
     document.getElementById('sendMessage').addEventListener('click', (e) => {
       e.preventDefault();
       const ref = firebase.database().ref('Messages');
-      const message = document.getElementById('message').value;
+      const message = document.getElementById('contactMessage').value;
       const kot = koten[0].adres;
       const creator = koten[0].user;
       const sender = firebase.auth().currentUser.email;
