@@ -14,6 +14,21 @@ export default () => {
   // Return the compiled template to the router
   update(compile(userloginTemplate, getInstance)({ name }));
   console.log('Log: userlogin');
+  const reset = (e) => {
+    e.preventDefault();
+    const auth = firebase.auth();
+    const emailAddress = document.getElementById('login_email').value;
+    if (emailAddress === '') {
+      alert('gelieve email in te geven');
+    } else if (emailAddress !== '') {
+      auth.sendPasswordResetEmail(emailAddress).then(() => {
+        alert('Reset is verzonden naar '+emailAddress);
+      }).catch((error) => {
+      // An error happened.
+      });
+    }
+  };
+  document.getElementById('forgot').addEventListener('click', reset);
 
   const login = (e) => {
     e.preventDefault();
