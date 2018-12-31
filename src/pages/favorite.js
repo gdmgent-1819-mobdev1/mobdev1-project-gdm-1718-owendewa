@@ -14,7 +14,14 @@ export default () => {
   const name = 'Test inc.';
   update(compile(favoriteTemplate)({ name }));
   console.log('Log: Favorite');
-
+  const remove = (e) => {
+    e.preventDefault();
+    const selectedFavorite = e.currentTarget.id;
+    const favoriteRef = firebase.database().ref(`Favorieten/${selectedFavorite}`);
+    favoriteRef.remove();
+    document.querySelector('#myList').innerHTML = '';
+    window.location.reload();
+  };
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       const userid = firebase.auth().currentUser.uid;
@@ -71,6 +78,7 @@ export default () => {
       if (firebase.auth().currentUser.uid === fav.currentUser) {
         document.getElementById('myList').innerHTML += `
         <div id="favoriteBox">
+          <a href="#" id="${childSnapshot.key}" class="favoriteRemove">Remove</a>
           <h1>${fav.type}</h1>
           <p>${fav.adres}</p>
           <img id="favoImg" src=${fav.image}></img><br>
@@ -89,6 +97,10 @@ export default () => {
           <p>Uitleg: ${fav.bemeubeldUitleg}</p>
           <p>Kotbaas: ${fav.kotbaas}</p>
         </div>`;
+        const favoriteButtons = document.querySelectorAll('.favoriteRemove');
+        for (let i = 0; i < favoriteButtons.length; i++) {
+          favoriteButtons[i].addEventListener('click', remove);
+        }
       }
     });
   });

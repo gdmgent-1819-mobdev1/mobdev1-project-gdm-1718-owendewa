@@ -208,23 +208,8 @@ export default () => {
                   window.location.replace('/#/kotenlijst');
                 });
               };
-              const contactButtons = document.querySelectorAll('#contactKnop');
-              for (let i = 0; i < contactButtons.length; i++) {
-                contactButtons[i].addEventListener('click', Contact);
-              }
-            } else if (localStorage.getItem('type') === 'Admin' && userid === kot.adminUid) {
-              document.querySelector('#createdKotList').innerHTML += `<div id="kotBox"><h1>${kot.type} te huur</h1><p>${kot.adres}</p><img class="displayImage" src=${kot.image}><h2>Algemene Info</h2><p>€${kot.huurprijs} / maand</p><p>Oppervlakte: ${kot.oppervlakte}m&sup2;</p><p>€${kot.waarborg} / waarborg</p><p>Verdieping: ${kot.verdieping}</p><h2>Sanitaire Info</h2><p>Douche ${kot.douche}</p><p>Toilet ${kot.toilet}</p><div id="kotBoxButtons" ><div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="large" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Delen</a><button id="${childSnapshot.key}" class="editKnop">Edit</button><button id="${childSnapshot.key}" class="deleteKnop">Remove</button></div></div>`;
-              const buttons = document.querySelectorAll('.deleteKnop');
-              for (let i = 0; i < buttons.length; i++) {
-                buttons[i].addEventListener('click', remove);
-              }
-              const editButtons = document.querySelectorAll('.editKnop');
-              for (let i = 0; i < editButtons.length; i++) {
-                editButtons[i].addEventListener('click', edit);
-              }
-            }
-            if (document.getElementById('favorietKnop') !== null) {
-              document.getElementById('favorietKnop').addEventListener('click', () => {
+              const Favorite = (e) => {
+                e.preventDefault();
                 const currentUser = firebase.auth().currentUser.uid;
                 const ref = firebase.database().ref('Favorieten');
                 const image = kot.image;
@@ -266,7 +251,25 @@ export default () => {
                 };
                 ref.push(data);
                 window.location.reload();
-              });
+              };
+              const favoriteButtons = document.querySelectorAll('#favorietKnop');
+              for (let i = 0; i < favoriteButtons.length; i++) {
+                favoriteButtons[i].addEventListener('click', Favorite);
+              }
+              const contactButtons = document.querySelectorAll('#contactKnop');
+              for (let i = 0; i < contactButtons.length; i++) {
+                contactButtons[i].addEventListener('click', Contact);
+              }
+            } else if (localStorage.getItem('type') === 'Admin' && userid === kot.adminUid) {
+              document.querySelector('#createdKotList').innerHTML += `<div id="kotBox"><h1>${kot.type} te huur</h1><p>${kot.adres}</p><img class="displayImage" src=${kot.image}><h2>Algemene Info</h2><p>€${kot.huurprijs} / maand</p><p>Oppervlakte: ${kot.oppervlakte}m&sup2;</p><p>€${kot.waarborg} / waarborg</p><p>Verdieping: ${kot.verdieping}</p><h2>Sanitaire Info</h2><p>Douche ${kot.douche}</p><p>Toilet ${kot.toilet}</p><div id="kotBoxButtons" ><div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="large" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Delen</a><button id="${childSnapshot.key}" class="editKnop">Edit</button><button id="${childSnapshot.key}" class="deleteKnop">Remove</button></div></div>`;
+              const buttons = document.querySelectorAll('.deleteKnop');
+              for (let i = 0; i < buttons.length; i++) {
+                buttons[i].addEventListener('click', remove);
+              }
+              const editButtons = document.querySelectorAll('.editKnop');
+              for (let i = 0; i < editButtons.length; i++) {
+                editButtons[i].addEventListener('click', edit);
+              }
             }
           });
         });
