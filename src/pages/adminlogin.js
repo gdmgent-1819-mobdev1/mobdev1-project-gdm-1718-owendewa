@@ -20,7 +20,6 @@ export default () => {
     const password = document.getElementById('login_password').value;
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(() => {
-        alert('Admin is ingelogd');
         localStorage.setItem('currentAdmin', email);
         localStorage.setItem('type', 'Admin');
         window.location.replace('/#/adminhome');

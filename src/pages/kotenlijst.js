@@ -110,7 +110,6 @@ export default () => {
           })
             .then(response => response.json())
             .then((data) => {
-              console.log(data);
               const kotLat = JSON.stringify(data.features[0].center[0]);
               const kotLong = JSON.stringify(data.features[0].center[1]);
               const adminUid = firebase.auth().currentUser.uid;
@@ -167,24 +166,26 @@ export default () => {
         kotRef.on('value', (snapshot) => {
           snapshot.forEach((childSnapshot) => {
             const kot = childSnapshot.val();
+            console.log(kot);
             if (localStorage.getItem('type') !== 'Admin') {
-              document.querySelector('#createdKotList').innerHTML += `<div id="kotBox"><h1>${kot.type} te huur</h1><p>${kot.adres}</p><img class="displayImage" src=${kot.image}><h2>Algemene Info</h2><p id="afstand">Kot ligt op ${kot.toUser}m afstand</p><p>€${kot.huurprijs} / maand</p><p>Oppervlakte: ${kot.oppervlakte}m&sup2;</p><p>€${kot.waarborg} / waarborg</p><p>Verdieping: ${kot.verdieping}</p><h2>Sanitaire Info</h2><p>Douche ${kot.douche}</p><p>Toilet ${kot.toilet}</p><div id="kotBoxButtons" ><div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="large" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Delen</a><a id="contactKnop">Contact</a><a id="favorietKnop">Favorite</a></div></div>`;
+              document.querySelector('#createdKotList').innerHTML += `<div id="kotBox"><h1>${kot.type} te huur</h1><p>${kot.adres}</p><img class="displayImage" src=${kot.image}><h2>Algemene Info</h2><p id="afstand">Kot ligt op ${kot.toUser}m afstand</p><p>€${kot.huurprijs} / maand</p><p>Oppervlakte: ${kot.oppervlakte}m&sup2;</p><p>€${kot.waarborg} / waarborg</p><p>Verdieping: ${kot.verdieping}</p><h2>Sanitaire Info</h2><p>Douche ${kot.douche}</p><p>Toilet ${kot.toilet}</p><div id="kotBoxButtons" ><div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="large" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Delen</a><a href="#" id="contactKnop">Contact</a><a href="#" id="${childSnapshot.key}" class="favorietKnop">Favorite</a></div></div>`;
               const Contact = (e) => {
+                e.preventDefault();
                 const noscroll = () => {
                   window.scrollTo(0, 0);
                 };
                 window.addEventListener('scroll', noscroll);
-                e.preventDefault();
                 document.getElementById('contactForm').style.display = 'block';
                 document.getElementById('contactForm').innerHTML = '';
                 document.getElementById('contactForm').innerHTML += '<form id="kotlijstContact"><button id="kotenlijstMessageClose">&times;</button><h1>Contact</h1><textarea id="message" placeholder="Geef uw boodschap hierin"></textarea><input type="submit" id="sendMessage" value="Send"></form>';
                 // POPUP CLOSE
-                document.getElementById('kotenlijstMessageClose').addEventListener('click', () => {
+                document.getElementById('kotenlijstMessageClose').addEventListener('click', (evt) => {
+                  evt.preventDefault();
                   document.getElementById('contactForm').style.display = 'none';
                   window.removeEventListener('scroll', noscroll);
                 });
-                document.getElementById('sendMessage').addEventListener('click', () => {
-                  e.preventDefault();
+                document.getElementById('sendMessage').addEventListener('click', (evt) => {
+                  evt.preventDefault();
                   window.removeEventListener('scroll', noscroll);
                   const ref = firebase.database().ref('Messages');
                   const message = document.getElementById('message').value;
@@ -205,60 +206,67 @@ export default () => {
                   };
                   ref.push(Data);
                   document.getElementById('contactForm').style.display = 'none';
-                  window.location.replace('/#/kotenlijst');
                 });
               };
+              const contactButtons = document.querySelectorAll('#contactKnop');
+              for (let i = 0; i < contactButtons.length; i++) {
+                contactButtons[i].addEventListener('click', Contact);
+              }
               const Favorite = (e) => {
                 e.preventDefault();
                 const currentUser = firebase.auth().currentUser.uid;
                 const ref = firebase.database().ref('Favorieten');
-                const image = kot.image;
-                const adres = kot.adres;
-                const user = kot.user;
-                const huurprijs = kot.huurprijs;
-                const waarborg = kot.waarborg;
-                const type = kot.type;
-                const oppervlakte = kot.oppervlakte;
-                const verdieping = kot.verdieping;
-                const personen = kot.personen;
-                const toilet = kot.toilet;
-                const douche = kot.douche;
-                const keuken = kot.keuken;
-                const bemeubeld = kot.bemeubeld;
-                const bemeubeldUitleg = kot.bemeubeldUitleg;
-                const entiteiten = kot.entiteiten;
-                const opmerking = kot.opmerking;
-                const afstand = kot.toUser;
-                const data = {
-                  currentUser,
-                  image,
-                  huurprijs,
-                  waarborg,
-                  type,
-                  oppervlakte,
-                  verdieping,
-                  personen,
-                  toilet,
-                  douche,
-                  keuken,
-                  bemeubeld,
-                  bemeubeldUitleg,
-                  adres,
-                  entiteiten,
-                  opmerking,
-                  kotbaas: user,
-                  afstand,
-                };
-                ref.push(data);
-                window.location.reload();
+                const selectedFavoKot = e.currentTarget.id;
+                const selectedFavoKotTwee = firebase.database().ref(`Koten/${selectedFavoKot}`);
+                console.log(selectedFavoKot);
+                console.log(selectedFavoKotTwee);
+                selectedFavoKotTwee.on('value', (snapshot) => {
+                  console.log(snapshot.val());
+                  const image = snapshot.val().image;
+                  const adres = snapshot.val().adres;
+                  const user = snapshot.val().user;
+                  const huurprijs = snapshot.val().huurprijs;
+                  const waarborg = snapshot.val().waarborg;
+                  const type = snapshot.val().type;
+                  const oppervlakte = snapshot.val().oppervlakte;
+                  const verdieping = snapshot.val().verdieping;
+                  const personen = snapshot.val().personen;
+                  const toilet = snapshot.val().toilet;
+                  const douche = snapshot.val().douche;
+                  const keuken = snapshot.val().keuken;
+                  const bemeubeld = snapshot.val().bemeubeld;
+                  const bemeubeldUitleg = snapshot.val().bemeubeldUitleg;
+                  const entiteiten = snapshot.val().entiteiten;
+                  const opmerking = snapshot.val().opmerking;
+                  const afstand = snapshot.val().toUser;
+                  const favoData = {
+                    currentUser,
+                    image,
+                    huurprijs,
+                    waarborg,
+                    type,
+                    oppervlakte,
+                    verdieping,
+                    personen,
+                    toilet,
+                    douche,
+                    keuken,
+                    bemeubeld,
+                    bemeubeldUitleg,
+                    adres,
+                    entiteiten,
+                    opmerking,
+                    kotbaas: user,
+                    afstand,
+                  };
+                  console.log(favoData);
+                  ref.push(favoData);
+                  alert('Toegevoegd aan favoriten');
+                });
               };
-              const favoriteButtons = document.querySelectorAll('#favorietKnop');
+              const favoriteButtons = document.querySelectorAll('.favorietKnop');
               for (let i = 0; i < favoriteButtons.length; i++) {
                 favoriteButtons[i].addEventListener('click', Favorite);
-              }
-              const contactButtons = document.querySelectorAll('#contactKnop');
-              for (let i = 0; i < contactButtons.length; i++) {
-                contactButtons[i].addEventListener('click', Contact);
               }
             } else if (localStorage.getItem('type') === 'Admin' && userid === kot.adminUid) {
               document.querySelector('#createdKotList').innerHTML += `<div id="kotBox"><h1>${kot.type} te huur</h1><p>${kot.adres}</p><img class="displayImage" src=${kot.image}><h2>Algemene Info</h2><p>€${kot.huurprijs} / maand</p><p>Oppervlakte: ${kot.oppervlakte}m&sup2;</p><p>€${kot.waarborg} / waarborg</p><p>Verdieping: ${kot.verdieping}</p><h2>Sanitaire Info</h2><p>Douche ${kot.douche}</p><p>Toilet ${kot.toilet}</p><div id="kotBoxButtons" ><div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="large" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Delen</a><button id="${childSnapshot.key}" class="editKnop">Edit</button><button id="${childSnapshot.key}" class="deleteKnop">Remove</button></div></div>`;
@@ -309,12 +317,14 @@ export default () => {
           }
         }
         if (document.getElementById('openMenu') !== null) {
-          document.getElementById('openMenu').addEventListener('click', () => {
+          document.getElementById('openMenu').addEventListener('click', (e) => {
+            e.preventDefault();
             document.getElementById('myNav').style.width = '50%';
           });
         }
         if (document.getElementById('closeMenu') !== null) {
-          document.getElementById('closeMenu').addEventListener('click', () => {
+          document.getElementById('closeMenu').addEventListener('click', (e) => {
+            e.preventDefault();
             document.getElementById('myNav').style.width = '0%';
           });
         }

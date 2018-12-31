@@ -36,7 +36,6 @@ export default () => {
     const password = document.getElementById('login_password').value;
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(() => {
-        alert('User is ingelogd');
         window.location.replace('/#/koten');
       })
       .catch((error) => {

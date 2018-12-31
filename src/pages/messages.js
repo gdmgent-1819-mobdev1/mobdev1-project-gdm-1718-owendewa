@@ -21,7 +21,6 @@ export default () => {
       // check user type
       const ref = firebase.database().ref(`Users/${userid}`);
       ref.once('value', (snapshot) => {
-        console.log(snapshot.val());
         if (snapshot.val().adminID === true) {
           if (document.getElementById('overlay-content') !== null) {
             document.getElementById('overlay-content').innerHTML = '';
@@ -90,7 +89,6 @@ export default () => {
                 document.getElementById('messageBox').innerHTML = '';
                 window.location.replace('/#/messages');
                 window.location.reload();
-                alert('Reply gegeven');
               });
             }
           }
