@@ -98,7 +98,8 @@ export default () => {
         document.getElementById('opmerking').value = data.opmerking;
       });
     };
-    document.getElementById('editSubmit').addEventListener('click', () => {
+    document.getElementById('editSubmit').addEventListener('click', (e) => {
+      e.preventDefault();
       document.querySelector('#createdKotList').innerHTML = '';
       filter.style.display = 'block';
       if (firebase) {
@@ -152,10 +153,7 @@ export default () => {
               });
               const editform = document.getElementById('editForm');
               editform.style.display = 'none';
-              document.querySelector('#createdKotList').innerHTML = '';
               document.querySelector('#createdKotList').style.display = 'block';
-              window.location.replace('/#/kotenlijst');
-              window.location.reload();
             });
         }
       }

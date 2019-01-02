@@ -194,7 +194,6 @@ export default () => {
     const bemeubeldUitleg = koten[0].bemeubeldUitleg;
     const entiteiten = koten[0].entiteiten;
     const opmerking = koten[0].opmerking;
-    const afstand = koten[0].toUser;
     const data = {
       currentUser,
       image,
@@ -213,8 +212,8 @@ export default () => {
       entiteiten,
       opmerking,
       kotbaas: user,
-      afstand,
     };
+    console.log(data);
     ref.push(data);
     koten.shift();
     localStorage.setItem('koten', JSON.stringify(koten));

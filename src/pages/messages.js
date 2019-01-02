@@ -79,18 +79,16 @@ export default () => {
          <p>Reply: ${messages.reply}</p></div>`;
           if (firebase.auth().currentUser.uid === messages.recepient && messages.reply === '') {
             document.getElementById('messageBox').innerHTML += `<form><textarea id="reply" placeholder="your reply"></textarea><input type="submit" value="antwoord" id="${childSnapshot.key}" class="messageReply"></form>`;
-            if (document.querySelector('.messageReply') !== null) {
-              document.querySelector('.messageReply').addEventListener('click', (e) => {
-                e.preventDefault();
-                const key = e.currentTarget.id;
-                const reply = document.getElementById('reply').value;
-                const messageRef = firebase.database().ref(`Messages/${key}`);
-                messageRef.child('reply').set(reply);
-                document.getElementById('messageBox').innerHTML = '';
-                window.location.replace('/#/messages');
-                window.location.reload();
-              });
-            }
+            document.querySelector('.messageReply').addEventListener('click', (e) => {
+              e.preventDefault();
+              const key = e.currentTarget.id;
+              const reply = document.getElementById('reply').value;
+              const messageRef = firebase.database().ref(`Messages/${key}`);
+              messageRef.child('reply').set(reply);
+              document.getElementById('messageBox').innerHTML = '';
+              window.location.replace('/#/messages');
+              window.location.reload();
+            });
           }
         }
       }
